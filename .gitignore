@@ -1,0 +1,15 @@
+vendor
+
+# Composer
+composer.lock
+
+# PHPUnit
+.phpunit.cache
+.phpunit.result.cache
+coverage
+
+# PHPCS
+.php-cs-fixer.cache
+
+# Infection
+infection.log

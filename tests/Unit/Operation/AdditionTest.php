@@ -3,6 +3,7 @@
 namespace Cyrulik\SimpleCalculator\Tests\Unit\Operation;
 
 use Cyrulik\SimpleCalculator\Operation\Addition;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class AdditionTest extends TestCase
@@ -14,31 +15,22 @@ class AdditionTest extends TestCase
         $this->sut = new Addition();
     }
 
-    public function testItCanAddTwoNumbers(): void
+    #[DataProvider('additionDataProvider')]
+    public function testItCanPerformAdditionOperations(float $a, float $b, float $expected): void
     {
-        $result = $this->sut->calculate(1, 2);
-
-        $this->assertSame(3.0, $result);
+        $this->assertSame($expected, $this->sut->calculate($a, $b));
     }
 
-    public function testItCanAddTwoNegativeNumbers(): void
+    /**
+     * @return float[][]
+     */
+    public static function additionDataProvider(): array
     {
-        $result = $this->sut->calculate(-1, -2);
-
-        $this->assertSame(-3.0, $result);
-    }
-
-    public function testItCanAddTwoDecimalNumbers(): void
-    {
-        $result = $this->sut->calculate(1.1, 2.5);
-
-        $this->assertSame(3.6, $result);
-    }
-
-    public function testItCanAddTwoNegativeDecimalNumbers(): void
-    {
-        $result = $this->sut->calculate(-1.1, -2.5);
-
-        $this->assertSame(-3.6, $result);
+        return [
+            [1, 2, 3.0],
+            [-1, -2, -3.0],
+            [1.1, 2.5, 3.6],
+            [-1.1, -2.5, -3.6],
+        ];
     }
 }

@@ -3,6 +3,8 @@
 namespace Cyrulik\SimpleCalculator\Tests\Unit;
 
 use Cyrulik\SimpleCalculator\Operation\Addition;
+use Cyrulik\SimpleCalculator\Operation\Division;
+use Cyrulik\SimpleCalculator\Operation\Multiplication;
 use Cyrulik\SimpleCalculator\Operation\Subtraction;
 use Cyrulik\SimpleCalculator\OperationFactory;
 use InvalidArgumentException;
@@ -29,6 +31,20 @@ class OperationFactoryTest extends TestCase
         $operation = $this->sut->create('subtraction');
 
         $this->assertInstanceOf(Subtraction::class, $operation);
+    }
+
+    public function testItCanCreateMultiplicationOperation(): void
+    {
+        $operation = $this->sut->create('multiplication');
+
+        $this->assertInstanceOf(Multiplication::class, $operation);
+    }
+
+    public function testItCanCreateDivisionOperation(): void
+    {
+        $operation = $this->sut->create('division');
+
+        $this->assertInstanceOf(Division::class, $operation);
     }
 
     public function testItThrowsExceptionForInvalidOperation(): void

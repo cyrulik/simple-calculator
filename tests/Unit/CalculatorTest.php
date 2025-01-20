@@ -5,6 +5,7 @@ namespace Cyrulik\SimpleCalculator\Tests\Unit;
 use Cyrulik\SimpleCalculator\Calculator;
 use Cyrulik\SimpleCalculator\OperationFactory;
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class CalculatorTest extends TestCase
@@ -16,18 +17,10 @@ class CalculatorTest extends TestCase
         $this->sut = new Calculator(new OperationFactory());
     }
 
-    public function testItCanPerformAdditionOperation(): void
+    #[DataProvider('operationsDataProvider')]
+    public function testItCanPerformArithmeticOperations(string $operation, float $a, float $b, float $expected): void
     {
-        $result = $this->sut->calculate('addition', 1, 2);
-
-        $this->assertSame(3.0, $result);
-    }
-
-    public function testItCanPerformSubtractionOperation(): void
-    {
-        $result = $this->sut->calculate('subtraction', 2, 1);
-
-        $this->assertSame(1.0, $result);
+        $this->assertSame($expected, $this->sut->calculate($operation, $a, $b));
     }
 
     public function testItThrowsExceptionForInvalidOperation(): void
@@ -35,5 +28,18 @@ class CalculatorTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->sut->calculate('foo', 2, 1);
+    }
+
+    /**
+     * @return array<array{0: string, 1: float, 2: float, 3: float}>
+     */
+    public static function operationsDataProvider(): array
+    {
+        return [
+            ['addition', 1, 2, 3.0],
+            ['subtraction', 1, 2, -1.0],
+            ['multiplication', 2, 3, 6.0],
+            ['division', 6, 3, 2.0],
+        ];
     }
 }

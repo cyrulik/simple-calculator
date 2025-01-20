@@ -3,6 +3,7 @@
 namespace Cyrulik\SimpleCalculator\Tests\Unit\Operation;
 
 use Cyrulik\SimpleCalculator\Operation\Subtraction;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SubtractionTest extends TestCase
@@ -14,31 +15,22 @@ class SubtractionTest extends TestCase
         $this->sut = new Subtraction();
     }
 
-    public function testItCanSubtractTwoNumbers(): void
+    #[DataProvider('subtractionDataProvider')]
+    public function testItCanPerformSubtractionOperations(float $a, float $b, float $expected): void
     {
-        $result = $this->sut->calculate(2, 1);
-
-        $this->assertSame(1.0, $result);
+        $this->assertSame($expected, $this->sut->calculate($a, $b));
     }
 
-    public function testItCanSubtractTwoNegativeNumbers(): void
+    /**
+     * @return float[][]
+     */
+    public static function subtractionDataProvider(): array
     {
-        $result = $this->sut->calculate(-1, -2);
-
-        $this->assertSame(1.0, $result);
-    }
-
-    public function testItCanSubtractTwoDecimalNumbers(): void
-    {
-        $result = $this->sut->calculate(2.5, 1.1);
-
-        $this->assertSame(1.4, $result);
-    }
-
-    public function testItCanSubtractTwoNegativeDecimalNumbers(): void
-    {
-        $result = $this->sut->calculate(-2.5, -1.1);
-
-        $this->assertSame(-1.4, $result);
+        return [
+            [1, 2, -1.0],
+            [-1, -2, 1.0],
+            [1.1, 2.5, -1.4],
+            [-1.1, -2.5, 1.4],
+        ];
     }
 }

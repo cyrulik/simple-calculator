@@ -3,6 +3,7 @@
 namespace Cyrulik\SimpleCalculator\Tests\Unit\Operation;
 
 use Cyrulik\SimpleCalculator\Operation\Multiplication;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class MultiplicationTest extends TestCase
@@ -14,31 +15,22 @@ class MultiplicationTest extends TestCase
         $this->sut = new Multiplication();
     }
 
-    public function testItCanMultiplyTwoNumbers(): void
+    #[DataProvider('multiplicationDataProvider')]
+    public function testItCanPerformMultiplicationOperations(float $a, float $b, float $expected): void
     {
-        $result = $this->sut->calculate(2, 3);
-
-        $this->assertEquals(6.0, $result);
+        $this->assertEquals($expected, $this->sut->calculate($a, $b));
     }
 
-    public function testItCanMultiplyTwoNegativeNumbers(): void
+    /**
+     * @return float[][]
+     */
+    public static function multiplicationDataProvider(): array
     {
-        $result = $this->sut->calculate(-2, -3);
-
-        $this->assertEquals(6.0, $result);
-    }
-
-    public function testItCanMultiplyNegativeAndPositiveNumbers(): void
-    {
-        $result = $this->sut->calculate(-2, 3);
-
-        $this->assertEquals(-6.0, $result);
-    }
-
-    public function testItCanMultiplyZeroAndPositiveNumbers(): void
-    {
-        $result = $this->sut->calculate(0, 3);
-
-        $this->assertEquals(0.0, $result);
+        return [
+            [2, 3, 6.0],
+            [-2, -3, 6.0],
+            [-2, 3, -6.0],
+            [0, 3, 0.0],
+        ];
     }
 }
